@@ -1,0 +1,28 @@
+title: Activate Remote Gradle Cache
+summary: TODO
+description: |
+  TODO
+
+website: https://github.com/bitrise-steplib/bitrise-step-activate-gradle-remote-cache
+source_code_url: https://github.com/bitrise-steplib/bitrise-step-activate-gradle-remote-cache
+support_url: https://github.com/bitrise-steplib/bitrise-step-activate-gradle-remote-cache
+
+type_tags:
+- utility
+
+run_if: .IsCI
+is_skippable: true
+
+toolkit:
+  go:
+    package_name: github.com/bitrise-steplib/bitrise-step-activate-gradle-remote-cache
+
+inputs:
+- verbose: "false"
+  opts:
+    title: Verbose logging
+    summary: Enable logging additional information for troubleshooting
+    is_required: true
+    value_options:
+    - "true"
+    - "false"
