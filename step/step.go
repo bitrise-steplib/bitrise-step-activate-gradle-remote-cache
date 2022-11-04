@@ -2,7 +2,8 @@ package step
 
 import (
 	"fmt"
-	"io/ioutil"
+	"os"
+	"path"
 
 	"github.com/bitrise-io/go-steputils/v2/stepconf"
 	"github.com/bitrise-io/go-utils/v2/command"
@@ -71,13 +72,17 @@ func (step RemoteCacheStep) addInitScript(version, endpoint, token string) error
 		return err
 	}
 
-	path, err := step.pathModifier.AbsPath("~/.gradle/init.gradle")
+	gradleHome, err := step.pathModifier.AbsPath("~/.gradle")
 	if err != nil {
 		return err
 	}
-	err = ioutil.WriteFile(path, []byte(scriptContent), 0755)
+	err = os.MkdirAll(gradleHome, 0755)
 	if err != nil {
-		return fmt.Errorf("failed to add init script to %s, error: %w", path, err)
+		return fmt.Errorf("failed to create .gradle directory in user home: %w", err)
+	}
+	err = os.WriteFile(path.Join(gradleHome, "init.gradle"), []byte(scriptContent), 0755)
+	if err != nil {
+		return fmt.Errorf("failed to add init script to %s, error: %w", gradleHome, err)
 	}
 
 	return nil
