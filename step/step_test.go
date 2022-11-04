@@ -35,7 +35,7 @@ func TestRemoteCacheStep_Run(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			fakePath := path.Join(t.TempDir(), "init.gradle")
+			fakePath := t.TempDir()
 			step := RemoteCacheStep{
 				logger:         log.NewLogger(),
 				inputParser:    stepconf.NewInputParser(tt.envRepo),
@@ -47,7 +47,7 @@ func TestRemoteCacheStep_Run(t *testing.T) {
 			if (err != nil) != tt.wantErr {
 				t.Errorf("Run() error = %v, wantErr %v", err, tt.wantErr)
 			} else if err == nil {
-				_, err := ioutil.ReadFile(fakePath)
+				_, err := ioutil.ReadFile(path.Join(fakePath, "init.gradle"))
 				if err != nil {
 					t.Errorf("failed to open generated file: %s", err)
 				}
