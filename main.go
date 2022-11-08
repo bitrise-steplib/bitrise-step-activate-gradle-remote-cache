@@ -7,6 +7,7 @@ import (
 	"github.com/bitrise-io/go-utils/v2/command"
 	"github.com/bitrise-io/go-utils/v2/env"
 	"github.com/bitrise-io/go-utils/v2/log"
+	"github.com/bitrise-io/go-utils/v2/pathutil"
 	"github.com/bitrise-steplib/steps-activate-gradle-remote-cache/step"
 )
 
@@ -19,7 +20,8 @@ func run() int {
 	envRepo := env.NewRepository()
 	inputParser := stepconf.NewInputParser(envRepo)
 	cmdFactory := command.NewFactory(envRepo)
-	cacheStep := step.New(logger, inputParser, cmdFactory, envRepo)
+	pathModifier := pathutil.NewPathModifier()
+	cacheStep := step.New(logger, inputParser, cmdFactory, envRepo, pathModifier)
 
 	exitCode := 0
 
