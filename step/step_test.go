@@ -2,7 +2,7 @@ package step
 
 import (
 	"fmt"
-	"io/ioutil"
+	"os"
 	"path"
 	"testing"
 
@@ -47,7 +47,7 @@ func TestRemoteCacheStep_Run(t *testing.T) {
 			if (err != nil) != tt.wantErr {
 				t.Errorf("Run() error = %v, wantErr %v", err, tt.wantErr)
 			} else if err == nil {
-				_, err := ioutil.ReadFile(path.Join(fakePath, "init.gradle"))
+				_, err := os.ReadFile(path.Join(fakePath, "init.gradle"))
 				if err != nil {
 					t.Errorf("failed to open generated file: %s", err)
 				}
