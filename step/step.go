@@ -62,7 +62,7 @@ func (step RemoteCacheStep) Run() error {
 		return fmt.Errorf("failed to set up remote caching: %w", err)
 	}
 	if err := step.addGlobalGradleProperties(); err != nil {
-		return fmt.Errorf("failed to apply additional Gradle properties")
+		return fmt.Errorf("failed to apply additional Gradle properties: %w", err)
 	}
 	step.logger.Donef("Init script added, remote cache enabled for subsequent builds")
 
