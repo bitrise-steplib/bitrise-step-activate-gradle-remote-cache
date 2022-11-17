@@ -15,6 +15,10 @@ workflows:
         is_skippable: false
         inputs:
         - verbose: "true"
+    - script:
+        title: Print Gradle init script
+        inputs:
+        - content: cat ~/.gradle/init.gradle
     - change-workdir:
         title: Switch working dir to _tmp
         inputs:
