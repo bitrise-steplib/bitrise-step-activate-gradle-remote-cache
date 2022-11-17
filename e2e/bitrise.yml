@@ -23,6 +23,7 @@ workflows:
         inputs:
         - module: app
         - variant: debug
+        - arguments: --build-cache
   _setup:
     steps:
     - script:
