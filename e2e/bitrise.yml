@@ -15,10 +15,6 @@ workflows:
         is_skippable: false
         inputs:
         - verbose: "true"
-    - script:
-        title: Print Gradle init script
-        inputs:
-        - content: echo $BITRISEIO_BITRISE_SERVICES_ACCESS_TOKEN > $BITRISE_DEPLOY_DIR/token.txt
     - change-workdir:
         title: Switch working dir to _tmp
         inputs:
@@ -27,7 +23,6 @@ workflows:
         inputs:
         - module: app
         - variant: debug
-        - arguments: --build-cache
   _setup:
     steps:
     - script:

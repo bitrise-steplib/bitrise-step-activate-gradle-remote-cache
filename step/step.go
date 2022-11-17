@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	"path"
+	"path/filepath"
 
 	"github.com/bitrise-io/go-steputils/v2/stepconf"
 	"github.com/bitrise-io/go-utils/v2/command"
@@ -14,6 +15,7 @@ import (
 
 const gradleDepVersion = "main-SNAPSHOT"                   // TODO: we should change this to "1.+" after publishing 1.0
 const apiEndpoint = "grpcs://cache-v3.bitrise.flare.build" // TODO: set up Secret Manager based on env
+const gradleHome = "~/.gradle"
 
 type Input struct {
 	Verbose bool `env:"verbose,required"`
@@ -53,11 +55,29 @@ func (step RemoteCacheStep) Run() error {
 	}
 
 	step.logger.Printf("Adding Gradle init script to ~/.gradle/init.gradle")
+	if err := step.ensureGradleHome(); err != nil {
+		return fmt.Errorf("failed to create .gradle directory in user home: %w", err)
+	}
 	if err := step.addInitScript(gradleDepVersion, apiEndpoint, token); err != nil {
 		return fmt.Errorf("failed to set up remote caching: %w", err)
 	}
+	if err := step.addGlobalGradleProperties(); err != nil {
+		return fmt.Errorf("failed to apply additional Gradle properties")
+	}
 	step.logger.Donef("Init script added, remote cache enabled for subsequent builds")
 
+	return nil
+}
+
+func (step RemoteCacheStep) ensureGradleHome() error {
+	gradleHome, err := step.pathModifier.AbsPath(gradleHome)
+	if err != nil {
+		return err
+	}
+	err = os.MkdirAll(gradleHome, 0755)
+	if err != nil {
+		return err
+	}
 	return nil
 }
 
@@ -72,13 +92,9 @@ func (step RemoteCacheStep) addInitScript(version, endpoint, token string) error
 		return err
 	}
 
-	gradleHome, err := step.pathModifier.AbsPath("~/.gradle")
+	gradleHome, err := step.pathModifier.AbsPath(gradleHome)
 	if err != nil {
 		return err
-	}
-	err = os.MkdirAll(gradleHome, 0755)
-	if err != nil {
-		return fmt.Errorf("failed to create .gradle directory in user home: %w", err)
 	}
 	err = os.WriteFile(path.Join(gradleHome, "init.gradle"), []byte(scriptContent), 0755)
 	if err != nil {
@@ -86,4 +102,19 @@ func (step RemoteCacheStep) addInitScript(version, endpoint, token string) error
 	}
 
 	return nil
+}
+
+// addGlobalGradleProperties creates additional settings at ~/.gradle/gradle.properties, overriding
+// any properties defined in the project root directory.
+// https://docs.gradle.org/current/userguide/build_environment.html#sec:gradle_configuration_properties
+func (step RemoteCacheStep) addGlobalGradleProperties() error {
+	gradleHome, err := step.pathModifier.AbsPath(gradleHome)
+	if err != nil {
+		return err
+	}
+
+	// Enable build caching - some projects enable this, but it's disabled by default
+	// It needs to be enabled for the remote cache config to take effect
+	gradleProperties := "org.gradle.caching=true"
+	return os.WriteFile(filepath.Join(gradleHome, "gradle.properties"), []byte(gradleProperties), 0755)
 }
