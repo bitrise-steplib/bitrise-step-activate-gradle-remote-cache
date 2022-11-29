@@ -18,6 +18,7 @@ const apiEndpoint = "grpcs://cache-v3.bitrise.flare.build" // TODO: set up Secre
 const gradleHome = "~/.gradle"
 
 type Input struct {
+	Push    bool `env:"push,required"`
 	Verbose bool `env:"verbose,required"`
 }
 
@@ -58,7 +59,7 @@ func (step RemoteCacheStep) Run() error {
 	if err := step.ensureGradleHome(); err != nil {
 		return fmt.Errorf("failed to create .gradle directory in user home: %w", err)
 	}
-	if err := step.addInitScript(gradleDepVersion, apiEndpoint, token); err != nil {
+	if err := step.addInitScript(gradleDepVersion, apiEndpoint, token, input.Push); err != nil {
 		return fmt.Errorf("failed to set up remote caching: %w", err)
 	}
 	if err := step.addGlobalGradleProperties(); err != nil {
@@ -81,11 +82,12 @@ func (step RemoteCacheStep) ensureGradleHome() error {
 	return nil
 }
 
-func (step RemoteCacheStep) addInitScript(version, endpoint, token string) error {
+func (step RemoteCacheStep) addInitScript(version, endpoint, token string, pushEnabled bool) error {
 	inventory := templateInventory{
-		Version:   version,
-		Endpoint:  endpoint,
-		AuthToken: token,
+		Version:     version,
+		Endpoint:    endpoint,
+		AuthToken:   token,
+		PushEnabled: pushEnabled,
 	}
 	scriptContent, err := renderTemplate(inventory)
 	if err != nil {

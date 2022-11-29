@@ -14,6 +14,7 @@ workflows:
         run_if: "true"
         is_skippable: false
         inputs:
+        - push: "true"
         - verbose: "true"
     - change-workdir:
         title: Switch working dir to _tmp

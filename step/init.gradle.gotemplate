@@ -28,8 +28,7 @@ gradle.settingsEvaluated { settings ->
             endpoint = '{{ .Endpoint }}'
             authToken = '{{ .AuthToken }}'
             enabled = true
-            push = true
-            avoidUploads = false
+            push = {{ .PushEnabled }}
         }
     }
 }
