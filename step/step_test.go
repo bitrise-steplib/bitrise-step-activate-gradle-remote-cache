@@ -23,12 +23,14 @@ func TestRemoteCacheStep_Run(t *testing.T) {
 			envRepo: fakeEnvRepo{envVars: map[string]string{
 				"BITRISEIO_BITRISE_SERVICES_ACCESS_TOKEN": "fake access token",
 				"verbose": "false",
+				"push":    "true",
 			}},
 		},
 		{
 			name: "missing auth token",
 			envRepo: fakeEnvRepo{envVars: map[string]string{
 				"verbose": "false",
+				"push":    "true",
 			}},
 			wantErr: true,
 		},
