@@ -12,9 +12,10 @@ func Test_renderTemplate(t *testing.T) {
 		{
 			name: "happy path",
 			inventory: templateInventory{
-				Version:   "main-SNAPSHOT",
-				Endpoint:  "grpcs://example.com",
-				AuthToken: "example_token",
+				Version:     "main-SNAPSHOT",
+				Endpoint:    "grpcs://example.com",
+				AuthToken:   "example_token",
+				PushEnabled: true,
 			},
 			want: expectedInitScript,
 		},
@@ -73,7 +74,6 @@ gradle.settingsEvaluated { settings ->
             authToken = 'example_token'
             enabled = true
             push = true
-            avoidUploads = false
         }
     }
 }

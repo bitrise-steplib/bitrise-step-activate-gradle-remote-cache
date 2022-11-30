@@ -12,9 +12,10 @@ import (
 var initTemplate string
 
 type templateInventory struct {
-	Version   string
-	Endpoint  string
-	AuthToken string
+	Version     string
+	Endpoint    string
+	AuthToken   string
+	PushEnabled bool
 }
 
 func renderTemplate(inventory templateInventory) (string, error) {
