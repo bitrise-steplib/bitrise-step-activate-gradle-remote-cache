@@ -9,7 +9,7 @@ Activates Bitrise Remote Build Cache for subsequent Gradle builds in the workflo
 
 This Step activates Bitrise's remote build cache for subsequent Gradle executions in the workflow.
 
-After this Step executes, Gradle builds will automatically read from the remote cache and push new entries if it's enabled. 
+After this Step executes, Gradle builds will automatically read from the remote cache and push new entries if it's enabled.
 
 </details>
 
@@ -26,7 +26,7 @@ You can also run this step directly with [Bitrise CLI](https://github.com/bitris
 
 | Key | Description | Flags | Default |
 | --- | --- | --- | --- |
-| `push` | Whether the build can not only read, but write new entries to the remote cache | required | `false` |
+| `push` | Whether the build can not only read, but write new entries to the remote cache | required | `true` |
 | `verbose` | Enable logging additional information for troubleshooting | required | `false` |
 </details>
 
