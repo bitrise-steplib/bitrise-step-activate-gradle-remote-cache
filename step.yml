@@ -20,7 +20,7 @@ toolkit:
     package_name: github.com/bitrise-steplib/bitrise-step-activate-gradle-remote-cache
 
 inputs:
-- push: "false"
+- push: "true"
   opts:
     title: Push new cache entries
     summary: Whether the build can not only read, but write new entries to the remote cache
