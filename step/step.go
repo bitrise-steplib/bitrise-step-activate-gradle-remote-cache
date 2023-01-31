@@ -13,8 +13,8 @@ import (
 	"github.com/bitrise-io/go-utils/v2/pathutil"
 )
 
-const gradleDepVersion = "main-SNAPSHOT"                   // TODO: we should change this to "1.+" after publishing 1.0
-const apiEndpoint = "grpcs://cache-v3.bitrise.flare.build" // TODO: set up Secret Manager based on env
+const gradleDepVersion = "1.0.0"
+const apiEndpoint = "grpcs://pluggable.services.bitrise.io"
 const gradleHome = "~/.gradle"
 
 type Input struct {
