@@ -12,7 +12,7 @@ func Test_renderTemplate(t *testing.T) {
 		{
 			name: "happy path",
 			inventory: templateInventory{
-				Version:     "main-SNAPSHOT",
+				Version:     "1.+",
 				Endpoint:    "grpcs://example.com",
 				AuthToken:   "example_token",
 				PushEnabled: true,
@@ -49,13 +49,10 @@ const expectedInitScript = `initscript {
         maven {
             url 'https://jitpack.io'
         }
-        maven {
-            url "https://s01.oss.sonatype.org/content/repositories/snapshots/"
-        }
     }
 
     dependencies {
-        classpath 'io.bitrise.gradle:remote-cache:main-SNAPSHOT'
+        classpath 'io.bitrise.gradle:remote-cache:1.+'
     }
 }
 
