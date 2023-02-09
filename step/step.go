@@ -13,8 +13,11 @@ import (
 	"github.com/bitrise-io/go-utils/v2/pathutil"
 )
 
-const gradleDepVersion = "main-SNAPSHOT"                   // TODO: we should change this to "1.+" after publishing 1.0
-const apiEndpoint = "grpcs://cache-v3.bitrise.flare.build" // TODO: set up Secret Manager based on env
+// Sync the major version of this step and the library.
+// Use the latest 1.x version of our dependency, so we don't have to update this definition after every lib release.
+// But don't forget to update this to `2.+` if the library reaches version 2.0!
+const gradleDepVersion = "1.+"
+const apiEndpoint = "grpcs://pluggable.services.bitrise.io"
 const gradleHome = "~/.gradle"
 
 type Input struct {
