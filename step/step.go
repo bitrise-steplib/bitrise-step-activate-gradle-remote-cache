@@ -62,7 +62,7 @@ func (step RemoteCacheStep) Run() error {
 	if err := step.ensureGradleHome(); err != nil {
 		return fmt.Errorf("failed to create .gradle directory in user home: %w", err)
 	}
-	if err := step.addInitScript(gradleDepVersion, apiEndpoint, token, input.Push); err != nil {
+	if err := step.addInitScript(gradleDepVersion, apiEndpoint, token, input.Push, input.Verbose); err != nil {
 		return fmt.Errorf("failed to set up remote caching: %w", err)
 	}
 	if err := step.addGlobalGradleProperties(); err != nil {
@@ -85,12 +85,13 @@ func (step RemoteCacheStep) ensureGradleHome() error {
 	return nil
 }
 
-func (step RemoteCacheStep) addInitScript(version, endpoint, token string, pushEnabled bool) error {
+func (step RemoteCacheStep) addInitScript(version, endpoint, token string, pushEnabled, debugEnabled bool) error {
 	inventory := templateInventory{
-		Version:     version,
-		Endpoint:    endpoint,
-		AuthToken:   token,
-		PushEnabled: pushEnabled,
+		Version:      version,
+		Endpoint:     endpoint,
+		AuthToken:    token,
+		PushEnabled:  pushEnabled,
+		DebugEnabled: debugEnabled,
 	}
 	scriptContent, err := renderTemplate(inventory)
 	if err != nil {
