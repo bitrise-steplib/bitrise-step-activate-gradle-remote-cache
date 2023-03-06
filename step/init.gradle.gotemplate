@@ -26,6 +26,7 @@ gradle.settingsEvaluated { settings ->
             authToken = '{{ .AuthToken }}'
             enabled = true
             push = {{ .PushEnabled }}
+            debug = {{ .DebugEnabled }}
         }
     }
 }
