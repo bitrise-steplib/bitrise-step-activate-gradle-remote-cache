@@ -22,15 +22,17 @@ func TestRemoteCacheStep_Run(t *testing.T) {
 			name: "happy path",
 			envRepo: fakeEnvRepo{envVars: map[string]string{
 				"BITRISEIO_BITRISE_SERVICES_ACCESS_TOKEN": "fake access token",
-				"verbose": "false",
-				"push":    "true",
+				"verbose":          "false",
+				"push":             "true",
+				"validation_level": "warning",
 			}},
 		},
 		{
 			name: "missing auth token",
 			envRepo: fakeEnvRepo{envVars: map[string]string{
-				"verbose": "false",
-				"push":    "true",
+				"verbose":          "false",
+				"push":             "true",
+				"validation_level": "warning",
 			}},
 			wantErr: true,
 		},
