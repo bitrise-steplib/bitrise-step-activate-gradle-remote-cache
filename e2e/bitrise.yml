@@ -16,6 +16,7 @@ workflows:
         inputs:
         - push: "true"
         - verbose: "true"
+        - validation_level: error
     - change-workdir:
         title: Switch working dir to _tmp
         inputs:

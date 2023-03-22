@@ -12,11 +12,12 @@ func Test_renderTemplate(t *testing.T) {
 		{
 			name: "happy path",
 			inventory: templateInventory{
-				Version:      "1.+",
-				Endpoint:     "grpcs://example.com",
-				AuthToken:    "example_token",
-				PushEnabled:  true,
-				DebugEnabled: true,
+				Version:         "1.+",
+				Endpoint:        "grpcs://example.com",
+				AuthToken:       "example_token",
+				PushEnabled:     true,
+				DebugEnabled:    true,
+				ValidationLevel: "error",
 			},
 			want: expectedInitScript,
 		},
@@ -73,6 +74,7 @@ gradle.settingsEvaluated { settings ->
             enabled = true
             push = true
             debug = true
+            blobValidationLevel = 'error'
         }
     }
 }

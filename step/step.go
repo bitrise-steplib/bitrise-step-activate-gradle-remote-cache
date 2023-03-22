@@ -21,8 +21,9 @@ const apiEndpoint = "grpcs://pluggable.services.bitrise.io"
 const gradleHome = "~/.gradle"
 
 type Input struct {
-	Push    bool `env:"push,required"`
-	Verbose bool `env:"verbose,required"`
+	Push            bool   `env:"push,required"`
+	Verbose         bool   `env:"verbose,required"`
+	ValidationLevel string `env:"validation_level,opt[none,warning,error]"`
 }
 
 type RemoteCacheStep struct {
@@ -62,7 +63,7 @@ func (step RemoteCacheStep) Run() error {
 	if err := step.ensureGradleHome(); err != nil {
 		return fmt.Errorf("failed to create .gradle directory in user home: %w", err)
 	}
-	if err := step.addInitScript(gradleDepVersion, apiEndpoint, token, input.Push, input.Verbose); err != nil {
+	if err := step.addInitScript(gradleDepVersion, apiEndpoint, token, input); err != nil {
 		return fmt.Errorf("failed to set up remote caching: %w", err)
 	}
 	if err := step.addGlobalGradleProperties(); err != nil {
@@ -85,13 +86,14 @@ func (step RemoteCacheStep) ensureGradleHome() error {
 	return nil
 }
 
-func (step RemoteCacheStep) addInitScript(version, endpoint, token string, pushEnabled, debugEnabled bool) error {
+func (step RemoteCacheStep) addInitScript(version, endpoint, token string, input Input) error {
 	inventory := templateInventory{
-		Version:      version,
-		Endpoint:     endpoint,
-		AuthToken:    token,
-		PushEnabled:  pushEnabled,
-		DebugEnabled: debugEnabled,
+		Version:         version,
+		Endpoint:        endpoint,
+		AuthToken:       token,
+		PushEnabled:     input.Push,
+		DebugEnabled:    input.Verbose,
+		ValidationLevel: input.ValidationLevel,
 	}
 	scriptContent, err := renderTemplate(inventory)
 	if err != nil {

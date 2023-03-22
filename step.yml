@@ -28,6 +28,23 @@ inputs:
     value_options:
     - "true"
     - "false"
+- validation_level: "warning"
+  opts:
+    title: Validation level
+    is_required: true
+    value_options:
+    - "none"
+    - "warning"
+    - "error"
+    summary: Level of cache entry validation for both uploads and downloads.
+    description: |-
+      Level of cache entry validation for both uploads and downloads.
+      
+      Levels:
+      - `none`: no validation.
+      - `warning`: print a warning about invalid cache entries, but don't interrupt the build
+      - `error`: print an error about invalid cache entries and interrupt the build
+
 - verbose: "false"
   opts:
     title: Verbose logging
