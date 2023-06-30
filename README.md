@@ -1,4 +1,4 @@
-# Activate Bitrise Build Cache for Gradle
+# Activate Bitrise Build Cache Add-On for Gradle
 
 [![Step changelog](https://shields.io/github/v/release/bitrise-steplib/bitrise-step-activate-gradle-remote-cache?include_prereleases&label=changelog&color=blueviolet)](https://github.com/bitrise-steplib/bitrise-step-activate-gradle-remote-cache/releases)
 
