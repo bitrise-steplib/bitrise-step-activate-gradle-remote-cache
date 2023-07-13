@@ -54,6 +54,11 @@ func (step RemoteCacheStep) Run() error {
 
 	step.logger.EnableDebugLog(input.Verbose)
 
+	err := step.ensureFeatureEnabled()
+	if err != nil {
+		return fmt.Errorf("failed to check if feature is available: %s", err)
+	}
+
 	token := step.envRepo.Get("BITRISEIO_BITRISE_SERVICES_ACCESS_TOKEN")
 	if token == "" {
 		return fmt.Errorf("$BITRISEIO_BITRISE_SERVICES_ACCESS_TOKEN is empty. This step is only supposed to run in Bitrise CI builds")
@@ -71,18 +76,6 @@ func (step RemoteCacheStep) Run() error {
 	}
 	step.logger.Donef("Init script added, remote cache enabled for subsequent builds")
 
-	return nil
-}
-
-func (step RemoteCacheStep) ensureGradleHome() error {
-	gradleHome, err := step.pathModifier.AbsPath(gradleHome)
-	if err != nil {
-		return err
-	}
-	err = os.MkdirAll(gradleHome, 0755)
-	if err != nil {
-		return err
-	}
 	return nil
 }
 
