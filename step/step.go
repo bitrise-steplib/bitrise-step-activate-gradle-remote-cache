@@ -54,9 +54,13 @@ func (step RemoteCacheStep) Run() error {
 
 	step.logger.EnableDebugLog(input.Verbose)
 
-	err := step.ensureFeatureEnabled()
+	enabled, err := step.ensureFeatureEnabled()
 	if err != nil {
-		return fmt.Errorf("failed to check if feature is available: %s", err)
+		step.logger.Warnf("failed to check if feature is available: %s", err)
+		return nil
+	}
+	if !enabled {
+		return nil
 	}
 
 	token := step.envRepo.Get("BITRISEIO_BITRISE_SERVICES_ACCESS_TOKEN")
