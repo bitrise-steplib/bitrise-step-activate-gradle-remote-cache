@@ -18,7 +18,6 @@ import (
 // But don't forget to update this to `2.+` if the library reaches version 2.0!
 const gradleDepVersion = "1.+"
 const apiEndpoint = "grpcs://pluggable.services.bitrise.io"
-const gradleHome = "~/.gradle"
 
 type Input struct {
 	Push            bool   `env:"push,required"`
@@ -54,6 +53,15 @@ func (step RemoteCacheStep) Run() error {
 
 	step.logger.EnableDebugLog(input.Verbose)
 
+	enabled, err := step.ensureFeatureEnabled()
+	if err != nil {
+		step.logger.Warnf("failed to check if feature is available: %s", err)
+		return nil
+	}
+	if !enabled {
+		return nil
+	}
+
 	token := step.envRepo.Get("BITRISEIO_BITRISE_SERVICES_ACCESS_TOKEN")
 	if token == "" {
 		return fmt.Errorf("$BITRISEIO_BITRISE_SERVICES_ACCESS_TOKEN is empty. This step is only supposed to run in Bitrise CI builds")
@@ -71,18 +79,6 @@ func (step RemoteCacheStep) Run() error {
 	}
 	step.logger.Donef("Init script added, remote cache enabled for subsequent builds")
 
-	return nil
-}
-
-func (step RemoteCacheStep) ensureGradleHome() error {
-	gradleHome, err := step.pathModifier.AbsPath(gradleHome)
-	if err != nil {
-		return err
-	}
-	err = os.MkdirAll(gradleHome, 0755)
-	if err != nil {
-		return err
-	}
 	return nil
 }
 

@@ -14,27 +14,42 @@ import (
 
 func TestRemoteCacheStep_Run(t *testing.T) {
 	tests := []struct {
-		name    string
-		envRepo env.Repository
-		wantErr bool
+		name             string
+		envRepo          env.Repository
+		wantErr          bool
+		wantConfigUpdate bool
 	}{
 		{
 			name: "happy path",
 			envRepo: fakeEnvRepo{envVars: map[string]string{
 				"BITRISEIO_BITRISE_SERVICES_ACCESS_TOKEN": "fake access token",
-				"verbose":          "false",
-				"push":             "true",
-				"validation_level": "warning",
+				"BITRISEIO_BUILD_CACHE_ENABLED":           "true",
+				"verbose":                                 "false",
+				"push":                                    "true",
+				"validation_level":                        "warning",
 			}},
+			wantConfigUpdate: true,
 		},
 		{
 			name: "missing auth token",
+			envRepo: fakeEnvRepo{envVars: map[string]string{
+				"BITRISEIO_BUILD_CACHE_ENABLED": "true",
+				"verbose":                       "false",
+				"push":                          "true",
+				"validation_level":              "warning",
+			}},
+			wantErr:          true,
+			wantConfigUpdate: false,
+		},
+		{
+			name: "feature not enabled",
 			envRepo: fakeEnvRepo{envVars: map[string]string{
 				"verbose":          "false",
 				"push":             "true",
 				"validation_level": "warning",
 			}},
-			wantErr: true,
+			wantErr:          false,
+			wantConfigUpdate: false,
 		},
 	}
 	for _, tt := range tests {
@@ -51,9 +66,11 @@ func TestRemoteCacheStep_Run(t *testing.T) {
 			if (err != nil) != tt.wantErr {
 				t.Errorf("Run() error = %v, wantErr %v", err, tt.wantErr)
 			} else if err == nil {
-				_, err := os.ReadFile(path.Join(fakePath, "init.gradle"))
-				if err != nil {
-					t.Errorf("failed to open generated file: %s", err)
+				if tt.wantConfigUpdate {
+					_, err := os.ReadFile(path.Join(fakePath, "init.gradle"))
+					if err != nil {
+						t.Errorf("failed to open generated file: %s", err)
+					}
 				}
 			}
 		})
