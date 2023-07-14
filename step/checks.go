@@ -6,8 +6,12 @@ import (
 )
 
 const unavailableAnnotation = `You have added the **Activate Build Cache** add-on step to your workflow.
+
 However, it has not been activated for this workspace yet. Please contact [support@bitrise.io](mailto:support@bitrise.io) to activate it.
+
 Build cache is not going to be activated in this build.`
+
+const gradleHome = "~/.gradle"
 
 func (step RemoteCacheStep) ensureFeatureEnabled() (bool, error) {
 	isEnabled := step.envRepo.Get("BITRISEIO_BUILD_CACHE_ENABLED") == "true"

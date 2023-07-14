@@ -18,7 +18,6 @@ import (
 // But don't forget to update this to `2.+` if the library reaches version 2.0!
 const gradleDepVersion = "1.+"
 const apiEndpoint = "grpcs://pluggable.services.bitrise.io"
-const gradleHome = "~/.gradle"
 
 type Input struct {
 	Push            bool   `env:"push,required"`
