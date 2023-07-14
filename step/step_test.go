@@ -22,6 +22,7 @@ func TestRemoteCacheStep_Run(t *testing.T) {
 			name: "happy path",
 			envRepo: fakeEnvRepo{envVars: map[string]string{
 				"BITRISEIO_BITRISE_SERVICES_ACCESS_TOKEN": "fake access token",
+				"BITRISEIO_BUILD_CACHE_ENABLED": "true",
 				"verbose":          "false",
 				"push":             "true",
 				"validation_level": "warning",
@@ -30,11 +31,21 @@ func TestRemoteCacheStep_Run(t *testing.T) {
 		{
 			name: "missing auth token",
 			envRepo: fakeEnvRepo{envVars: map[string]string{
+				"BITRISEIO_BUILD_CACHE_ENABLED": "true",
 				"verbose":          "false",
 				"push":             "true",
 				"validation_level": "warning",
 			}},
 			wantErr: true,
+		},
+		{
+			name: "feature not enabled",
+			envRepo: fakeEnvRepo{envVars: map[string]string{
+				"verbose":          "false",
+				"push":             "true",
+				"validation_level": "warning",
+			}},
+			wantErr: false,
 		},
 	}
 	for _, tt := range tests {
