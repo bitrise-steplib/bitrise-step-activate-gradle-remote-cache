@@ -5,11 +5,11 @@ import (
 	"os"
 )
 
-const unavailableAnnotation = `You have added the **Activate Build Cache** add-on step to your workflow.
+const unavailableAnnotation = `You have added the **Activate Bitrise Build Cache for Gradle** add-on step to your workflow.
 
 However, it has not been activated for this workspace yet. Please contact [support@bitrise.io](mailto:support@bitrise.io) to activate it.
 
-Build cache is not going to be activated in this build.`
+Build cache is not activated in this build.`
 
 const gradleHome = "~/.gradle"
 
