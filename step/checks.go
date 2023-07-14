@@ -29,6 +29,7 @@ func (step RemoteCacheStep) ensureFeatureEnabled() (bool, error) {
 		if err != nil {
 			return false, fmt.Errorf("failed to create annotation: %s", cmdOut)
 		}
+		return false, nil
 	}
 
 	return true, nil
