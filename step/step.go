@@ -11,6 +11,7 @@ import (
 	"github.com/bitrise-io/go-utils/v2/env"
 	"github.com/bitrise-io/go-utils/v2/log"
 	"github.com/bitrise-io/go-utils/v2/pathutil"
+	"github.com/bitrise-io/go-steputils/v2/export"
 )
 
 // Sync the major version of this step and the library.
@@ -78,6 +79,11 @@ func (step RemoteCacheStep) Run() error {
 		return fmt.Errorf("failed to apply additional Gradle properties: %w", err)
 	}
 	step.logger.Donef("Init script added, remote cache enabled for subsequent builds")
+
+	exporter := export.NewExporter(step.commandFactory)
+	if err = exporter.ExportOutput("BITRISEIO_GRADLE_COLLECT_METRICS", "true"); err != nil {
+		return fmt.Errorf("failed to set up remote caching: %w", err)
+	}
 
 	return nil
 }
