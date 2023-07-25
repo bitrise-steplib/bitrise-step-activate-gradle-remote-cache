@@ -7,4 +7,7 @@ require (
 	github.com/bitrise-io/go-utils/v2 v2.0.0-alpha.13
 )
 
-require golang.org/x/text v0.3.8 // indirect
+require (
+	github.com/bitrise-io/go-utils v1.0.1 // indirect
+	golang.org/x/text v0.3.8 // indirect
+)
