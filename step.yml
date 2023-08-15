@@ -45,6 +45,15 @@ inputs:
       - `warning`: print a warning about invalid cache entries, but don't interrupt the build
       - `error`: print an error about invalid cache entries and interrupt the build
 
+- collect_metrics: "yes"
+  opts:
+    title: Collect Gradle build metrics
+    is_required: true
+    value_options:
+    - "yes"
+    - "no"
+    description: TODO
+
 - verbose: "false"
   opts:
     title: Verbose logging
