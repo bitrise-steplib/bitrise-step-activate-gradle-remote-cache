@@ -30,7 +30,7 @@ type Input struct {
 	Push            bool   `env:"push,required"`
 	Verbose         bool   `env:"verbose,required"`
 	ValidationLevel string `env:"validation_level,opt[none,warning,error]"`
-	CollectMetrics  bool   `env:"collect_metrics,opt[yes,no]"`
+	CollectMetrics  bool   `env:"collect_metrics"`
 }
 
 type RemoteCacheStep struct {
