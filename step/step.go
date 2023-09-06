@@ -22,7 +22,7 @@ const apiEndpoint = "grpcs://pluggable.services.bitrise.io"
 // Sync the major version of this step and the plugin.
 // Use the latest 1.x version of the plugin, so we don't have to update this definition after every plugin release.
 // But don't forget to update this to `2.+` if the library reaches version 2.0!
-const metricsDepVersion = "0.+" // TODO: change to 1.+
+const metricsDepVersion = "main-SNAPSHOT" // TODO: change to 1.+
 const metricsEndpoint = "gradle-analytics.services.bitrise.io"
 const metricsPort = 443
 
