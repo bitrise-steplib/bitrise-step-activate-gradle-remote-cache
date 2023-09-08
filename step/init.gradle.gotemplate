@@ -5,10 +5,6 @@ initscript {
             url 'https://jitpack.io'
         }
         {{- if .MetricsEnabled }}
-        // TODO: revert this after testing
-        maven {
-            url "https://s01.oss.sonatype.org/content/repositories/snapshots/"
-        }
         maven {
             url "https://plugins.gradle.org/m2/"
         }
