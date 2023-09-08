@@ -1,4 +1,4 @@
-title: Activate Bitrise Build Cache for Gradle
+title: Activate Bitrise Build Cache Add-On for Gradle
 summary: Activates Bitrise Remote Build Cache add-on for subsequent Gradle builds in the workflow
 description: |
   This Step activates Bitrise's remote build cache add-on for subsequent Gradle executions in the workflow.
@@ -44,6 +44,17 @@ inputs:
       - `none`: no validation.
       - `warning`: print a warning about invalid cache entries, but don't interrupt the build
       - `error`: print an error about invalid cache entries and interrupt the build
+
+- collect_metrics: "true"
+  opts:
+    title: Collect Gradle build metrics
+    is_required: true
+    value_options:
+    - "true"
+    - "false"
+    summary: Collect build metrics in subsequent Gradle executions
+    description: |-
+      When enabled, this sets up Gradle build metrics collection for the subsequent Gradle invocations in the workflow. Metrics are sent to [Bitrise Insights](https://app.bitrise.io/insights).
 
 - verbose: "false"
   opts:

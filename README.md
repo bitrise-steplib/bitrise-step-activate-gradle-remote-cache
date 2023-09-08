@@ -28,6 +28,7 @@ You can also run this step directly with [Bitrise CLI](https://github.com/bitris
 | --- | --- | --- | --- |
 | `push` | Whether the build can not only read, but write new entries to the remote cache | required | `true` |
 | `validation_level` | Level of cache entry validation for both uploads and downloads.  Levels: - `none`: no validation. - `warning`: print a warning about invalid cache entries, but don't interrupt the build - `error`: print an error about invalid cache entries and interrupt the build | required | `warning` |
+| `collect_metrics` | When enabled, this sets up Gradle build metrics collection for the subsequent Gradle invocations in the workflow. Metrics are sent to [Bitrise Insights](https://app.bitrise.io/insights). | required | `true` |
 | `verbose` | Enable logging additional information for troubleshooting | required | `false` |
 </details>
 

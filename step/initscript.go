@@ -12,19 +12,23 @@ import (
 var initTemplate string
 
 type templateInventory struct {
-	Version         string
-	Endpoint        string
+	CacheVersion    string
+	CacheEndpoint   string
 	AuthToken       string
 	PushEnabled     bool
 	DebugEnabled    bool
 	ValidationLevel string
+	MetricsEnabled  bool
+	MetricsVersion string
+	MetricsEndpoint string
+	MetricsPort     int
 }
 
 func renderTemplate(inventory templateInventory) (string, error) {
-	if inventory.Version == "" {
+	if inventory.CacheVersion == "" {
 		return "", fmt.Errorf("version cannot be empty")
 	}
-	if _, err := url.ParseRequestURI(inventory.Endpoint); err != nil {
+	if _, err := url.ParseRequestURI(inventory.CacheEndpoint); err != nil {
 		return "", fmt.Errorf("invalid remote cache URL: %w", err)
 	}
 

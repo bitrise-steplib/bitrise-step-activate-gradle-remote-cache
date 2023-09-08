@@ -19,10 +19,18 @@ import (
 const gradleDepVersion = "1.+"
 const apiEndpoint = "grpcs://pluggable.services.bitrise.io"
 
+// Sync the major version of this step and the plugin.
+// Use the latest 1.x version of the plugin, so we don't have to update this definition after every plugin release.
+// But don't forget to update this to `2.+` if the library reaches version 2.0!
+const metricsDepVersion = "0.+" // TODO: change to 1.+
+const metricsEndpoint = "gradle-analytics.services.bitrise.io"
+const metricsPort = 443
+
 type Input struct {
 	Push            bool   `env:"push,required"`
 	Verbose         bool   `env:"verbose,required"`
 	ValidationLevel string `env:"validation_level,opt[none,warning,error]"`
+	CollectMetrics  bool   `env:"collect_metrics"`
 }
 
 type RemoteCacheStep struct {
@@ -84,12 +92,16 @@ func (step RemoteCacheStep) Run() error {
 
 func (step RemoteCacheStep) addInitScript(version, endpoint, token string, input Input) error {
 	inventory := templateInventory{
-		Version:         version,
-		Endpoint:        endpoint,
+		CacheVersion:    version,
+		CacheEndpoint:   endpoint,
 		AuthToken:       token,
 		PushEnabled:     input.Push,
 		DebugEnabled:    input.Verbose,
 		ValidationLevel: input.ValidationLevel,
+		MetricsEnabled:  input.CollectMetrics,
+		MetricsVersion:  metricsDepVersion,
+		MetricsEndpoint: metricsEndpoint,
+		MetricsPort:     metricsPort,
 	}
 	scriptContent, err := renderTemplate(inventory)
 	if err != nil {
