@@ -13,6 +13,7 @@ workflows:
     - git::https://github.com/bitrise-steplib/steps-check.git:
         inputs:
         - workflow: e2e
+        - skip_go_checks: "yes"
 
   generate_readme:
     steps:
