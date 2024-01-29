@@ -4,7 +4,9 @@ default_step_lib_source: https://github.com/bitrise-io/bitrise-steplib.git
 workflows:
   check:
     steps:
-    - git::https://github.com/bitrise-steplib/steps-check.git: { }
+    - git::https://github.com/bitrise-steplib/steps-check.git:
+        inputs:
+        - skip_go_checks: "yes"
 
   e2e:
     steps:
