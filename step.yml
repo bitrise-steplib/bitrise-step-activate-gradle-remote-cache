@@ -12,6 +12,9 @@ support_url: https://github.com/bitrise-steplib/bitrise-step-activate-gradle-rem
 type_tags:
 - utility
 
+project_type_tags:
+- android
+
 run_if: .IsCI
 is_skippable: true
 
