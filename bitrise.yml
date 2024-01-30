@@ -7,6 +7,7 @@ workflows:
     - git::https://github.com/bitrise-steplib/steps-check.git:
         inputs:
         - skip_go_checks: "yes"
+        - workflow: "lint"
 
   e2e:
     steps:
