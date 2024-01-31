@@ -14,6 +14,7 @@ EOF_MSG
 
 set -eo pipefail
 
+echo "Checking whether Bitrise Build Cache is activated for this workspace ..."
 if [ "$BITRISEIO_BUILD_CACHE_ENABLED" != "true" ]; then
   printf "\n%s\n" "$UNAVAILABLE_MESSAGE"
   set -x
@@ -24,6 +25,7 @@ if [ "$BITRISEIO_BUILD_CACHE_ENABLED" != "true" ]; then
   }
   exit 2
 fi
+echo "Bitrise Build Cache is activated in this workspace, configuring the build environment ..."
 
 set -x
 
