@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
-set -eo pipefail
 
-UNAVAILABLE_MESSAGE=$(cat <<-END
+# 'read' has to be before 'set -e'
+read -r -d '' UNAVAILABLE_MESSAGE << EOF_MSG
 Bitrise Build Cache is not activated in this build.
 
 You have added the **Activate Bitrise Build Cache for Gradle** add-on step to your workflow.
@@ -10,8 +10,9 @@ However, you don't have an activate Bitrise Build Cache Trial or Subscription fo
 
 You can activate a Trial at [app.bitrise.io/build-cache](https://app.bitrise.io/build-cache),
 or contact us at [support@bitrise.io](mailto:support@bitrise.io) to activate it.
-END
-)
+EOF_MSG
+
+set -eo pipefail
 
 if [ "$BITRISEIO_BUILD_CACHE_ENABLED" != "true" ]; then
   printf "\n%s\n" "$UNAVAILABLE_MESSAGE"
@@ -19,9 +20,9 @@ if [ "$BITRISEIO_BUILD_CACHE_ENABLED" != "true" ]; then
   bitrise plugin install https://github.com/bitrise-io/bitrise-plugins-annotations.git
   bitrise :annotations annotate "$UNAVAILABLE_MESSAGE" --style error || {
     echo "Failed to create annotation"
-    exit 1
+    exit 3
   }
-  exit 1
+  exit 2
 fi
 
 set -x
