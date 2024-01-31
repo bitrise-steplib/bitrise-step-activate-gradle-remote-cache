@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -exo pipefail
+set -eo pipefail
 
 UNAVAILABLE_MESSAGE=$(cat <<-END
 Bitrise Build Cache is not activated in this build.
@@ -15,13 +15,16 @@ END
 
 if [ "$BITRISEIO_BUILD_CACHE_ENABLED" != "true" ]; then
   printf "\n%s\n" "$UNAVAILABLE_MESSAGE"
+  set -x
   bitrise plugin install https://github.com/bitrise-io/bitrise-plugins-annotations.git
   bitrise :annotations annotate "$UNAVAILABLE_MESSAGE" --style error || {
     echo "Failed to create annotation"
-    exit 0
+    exit 1
   }
-  exit 0
+  exit 1
 fi
+
+set -x
 
 # download the Bitrise Build Cache CLI
 export BITRISE_BUILD_CACHE_CLI_VERSION="v0.8.0"
