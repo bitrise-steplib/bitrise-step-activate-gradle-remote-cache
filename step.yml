@@ -16,8 +16,8 @@ run_if: .IsCI
 is_skippable: true
 
 toolkit:
-  go:
-    package_name: github.com/bitrise-steplib/bitrise-step-activate-gradle-remote-cache
+  bash:
+    entry_file: step.sh
 
 inputs:
 - push: "true"
