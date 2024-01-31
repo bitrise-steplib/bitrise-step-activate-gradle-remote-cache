@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -euxo pipefail
+set -exo pipefail
 
 UNAVAILABLE_MESSAGE=$(cat <<-END
 Bitrise Build Cache is not activated in this build.
