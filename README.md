@@ -5,7 +5,7 @@
 Activates Bitrise Remote Build Cache add-on for subsequent Gradle builds in the workflow
 
 <details>
-<summary>Description</summary>
+<summary>Description</summary> test
 
 This Step activates Bitrise's remote build cache add-on for subsequent Gradle executions in the workflow.
 
