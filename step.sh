@@ -33,9 +33,9 @@ set -x
 export BITRISE_BUILD_CACHE_CLI_VERSION="v0.11.0"
 curl --retry 5 -sSfL 'https://raw.githubusercontent.com/bitrise-io/bitrise-build-cache-cli/main/install/installer.sh' | sh -s -- -b /tmp/bin -d $BITRISE_BUILD_CACHE_CLI_VERSION
 
-# run the Bitrise Build Cache CLI
-/tmp/bin/bitrise-build-cache enable-for gradle
+if [ "$collect_metrics" != "true" ] && [ "$collect_metrics" != "false" ]; then
+  echo "Parsing inputs failed: Collect Gradle build metrics ($collect_metrics) is not a valid option."
+fi
 
-# !!!
-# TODO: pass step inputs to the CLI
-# !!!
+# run the Bitrise Build Cache CLI
+/tmp/bin/bitrise-build-cache enable-for gradle --metrics="$collect_metrics"

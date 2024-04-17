@@ -1,13 +1,29 @@
 format_version: "11"
 default_step_lib_source: https://github.com/bitrise-io/bitrise-steplib.git
 
+app:
+  envs:
+  - TEST_APP_URL: https://github.com/bitrise-io/Bitrise-Android-Sample
+  - BRANCH: main
+
 workflows:
-  test_gradle_build:
+  test_gradle_build_analytics:
     envs:
-    - TEST_APP_URL: https://github.com/bitrise-io/Bitrise-Android-Sample
-    - BRANCH: main
-    before_run:
+    - ANALYTICS: "true"
+    after_run:
     - _setup
+    - _run
+    - _check
+
+  test_gradle_build_no_analytics:
+    envs:
+    - ANALYTICS: "false"
+    after_run:
+    - _setup
+    - _run
+    - _check
+
+  _run:
     steps:
     - path::./:
         title: Execute step
@@ -15,6 +31,7 @@ workflows:
         is_skippable: false
         inputs:
         - push: "true"
+        - collect_metrics: $ANALYTICS
         - verbose: "true"
         - validation_level: error
     - change-workdir:
@@ -25,6 +42,30 @@ workflows:
         inputs:
         - module: app
         - variant: debug
+
+  _check:
+    steps:
+    - script:
+        title: Check if the step is working
+        inputs:
+        - content: |-
+            #!/bin/bash
+            set -ex
+            echo "~/.gradle/init.d/bitrise-build-cache-init.gradle.kts content:"
+            cat ~/.gradle/init.d/bitrise-build-cache-init.gradle.kts
+
+            analytics_enabled_in_init="false"
+            if grep -q "io.bitrise.gradle.analytics" ~/.gradle/init.d/bitrise-build-cache-init.gradle.kts; then
+              echo "Analytics enabled in gradle init"
+                analytics_enabled_in_init="true"
+            else
+              echo "Analytics disabled in gradle init"
+            fi
+
+            if [ "$analytics_enabled_in_init" != $ANALYTICS ]; then
+              exit 1
+            fi
+
   _setup:
     steps:
     - script:
