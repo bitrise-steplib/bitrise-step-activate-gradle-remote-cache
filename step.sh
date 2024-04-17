@@ -38,4 +38,4 @@ if "$collect_metrics" != "true" || "$collect_metrics" != "false"; then
 fi
 
 # run the Bitrise Build Cache CLI
-/tmp/bin/bitrise-build-cache enable-for  --metrics "$collect_metrics" gradle
+/tmp/bin/bitrise-build-cache enable-for gradle --metrics="$collect_metrics"
