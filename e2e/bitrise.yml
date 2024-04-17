@@ -22,7 +22,7 @@ workflows:
     - _setup
     - _run
 
-  _run: 
+  _run:
     steps:
     - path::./:
         title: Execute step
@@ -42,7 +42,7 @@ workflows:
         - module: app
         - variant: debug
 
-  _check: 
+  _check:
     steps:
     - script:
         title: Check if the step is working
