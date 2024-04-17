@@ -21,6 +21,7 @@ workflows:
     after_run:
     - _setup
     - _run
+    - _check
 
   _run:
     steps:
