@@ -51,11 +51,11 @@ workflows:
         - content: |-
             #!/bin/bash
             set -ex
-            echo "~/.gradle/init.d/bitrise-build-cache-init.gradle.kts content:"
-            cat ~/.gradle/init.d/bitrise-build-cache-init.gradle.kts
+            echo "~/.gradle/init.d/bitrise-build-cache.init.gradle.kts content:"
+            cat ~/.gradle/init.d/bitrise-build-cache.init.gradle.kts
 
             analytics_enabled_in_init="false"
-            if grep -q "io.bitrise.gradle.analytics" ~/.gradle/init.d/bitrise-build-cache-init.gradle.kts; then
+            if grep -q "io.bitrise.gradle.analytics" ~/.gradle/init.d/bitrise-build-cache.init.gradle.kts; then
               echo "Analytics enabled in gradle init"
                 analytics_enabled_in_init="true"
             else
