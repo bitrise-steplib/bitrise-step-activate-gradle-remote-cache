@@ -37,5 +37,17 @@ if [ "$collect_metrics" != "true" ] && [ "$collect_metrics" != "false" ]; then
   echo "Parsing inputs failed: Collect Gradle build metrics ($collect_metrics) is not a valid option."
 fi
 
+if [ "$push" != "true" ] && [ "$push" != "false" ]; then
+  echo "Parsing inputs failed: Push new cache entries ($push) is not a valid option."
+fi
+
+if [ "$validation_level" != "none" ] && [ "$validation_level" != "warning" ] && [ "$validation_level" != "error" ]; then
+  echo "Parsing inputs failed: Validation level ($validation_level) is not a valid option."
+fi
+
+if [ "$verbose" != "true" ] && [ "$verbose" != "false" ]; then
+  echo "Parsing inputs failed: Verbose logging ($verbose) is not a valid option."
+fi
+
 # run the Bitrise Build Cache CLI
-/tmp/bin/bitrise-build-cache enable-for gradle --metrics="$collect_metrics"
+/tmp/bin/bitrise-build-cache enable-for gradle --metrics="$collect_metrics" --push="$push" --validation-level="$validation_level" --verbose="$verbose"
