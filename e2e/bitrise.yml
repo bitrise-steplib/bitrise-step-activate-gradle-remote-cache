@@ -32,7 +32,7 @@ workflows:
         inputs:
         - push: "true"
         - collect_metrics: $ANALYTICS
-        - verbose: "true"
+        - verbose: "false"
         - validation_level: error
     - change-workdir:
         title: Switch working dir to _tmp
