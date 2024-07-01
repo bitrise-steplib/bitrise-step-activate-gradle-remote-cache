@@ -30,9 +30,9 @@ workflows:
         run_if: "true"
         is_skippable: false
         inputs:
-        - push: "true"
+        - push: "false"
         - collect_metrics: $ANALYTICS
-        - verbose: "false"
+        - verbose: "true"
         - validation_level: error
     - change-workdir:
         title: Switch working dir to _tmp
