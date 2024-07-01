@@ -30,7 +30,7 @@ workflows:
         run_if: "true"
         is_skippable: false
         inputs:
-        - push: "false"
+        - push: "true"
         - collect_metrics: $ANALYTICS
         - verbose: "true"
         - validation_level: error
