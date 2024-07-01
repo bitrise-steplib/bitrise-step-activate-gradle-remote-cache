@@ -30,12 +30,25 @@ echo "Bitrise Build Cache is activated in this workspace, configuring the build 
 set -x
 
 # download the Bitrise Build Cache CLI
-export BITRISE_BUILD_CACHE_CLI_VERSION="v0.14.3"
+export BITRISE_BUILD_CACHE_CLI_VERSION="v0.14.4"
 curl --retry 5 -sSfL 'https://raw.githubusercontent.com/bitrise-io/bitrise-build-cache-cli/main/install/installer.sh' | sh -s -- -b /tmp/bin -d $BITRISE_BUILD_CACHE_CLI_VERSION
 
 if [ "$collect_metrics" != "true" ] && [ "$collect_metrics" != "false" ]; then
   echo "Parsing inputs failed: Collect Gradle build metrics ($collect_metrics) is not a valid option."
 fi
 
+if [ "$push" != "true" ] && [ "$push" != "false" ]; then
+  echo "Parsing inputs failed: Push new cache entries ($push) is not a valid option."
+fi
+
+if [ "$validation_level" != "none" ] && [ "$validation_level" != "warning" ] && [ "$validation_level" != "error" ]; then
+  echo "Parsing inputs failed: Validation level ($validation_level) is not a valid option."
+fi
+
+if [ "$verbose" != "true" ] && [ "$verbose" != "false" ]; then
+  echo "Parsing inputs failed: Verbose logging ($verbose) is not a valid option."
+fi
+
 # run the Bitrise Build Cache CLI
-/tmp/bin/bitrise-build-cache enable-for gradle --metrics="$collect_metrics"
+/tmp/bin/bitrise-build-cache enable-for gradle --metrics="$collect_metrics" --push="$push" --validation-level="$validation_level" --debug="$verbose"
+
