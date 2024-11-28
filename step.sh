@@ -52,3 +52,7 @@ fi
 # run the Bitrise Build Cache CLI
 /tmp/bin/bitrise-build-cache enable-for gradle --metrics="$collect_metrics" --push="$push" --validation-level="$validation_level" --debug="$verbose"
 
+if [ "$gradle_verification_update" == "enabled" ]; then
+  /tmp/bin/bitrise-build-cache add-gradle-verification-deps --metadata="$gradle_verification_metadata_path"
+fi
+

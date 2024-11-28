@@ -20,6 +20,21 @@ toolkit:
     entry_file: step.sh
 
 inputs:
+- gradle_verification_update: enabled
+  category: Gradle verification
+  opts:
+    title: Update project verification-metadata.xml with cache plugin dependencies
+    summary: It allows projects that have gradle verification enabled to enable build cache without editing verification-metadata.xml.
+    is_required: true
+    value_options:
+    - enabled
+    - disabled
+- gradle_verification_metadata_path: $BITRISE_SOURCE_DIR/gradle/verification-metadata.xml
+  category: Gradle verification
+  opts:
+    title: Project Location
+    summary: The root directory of your android project.
+    is_required: true
 - push: "true"
   opts:
     title: Push new cache entries
