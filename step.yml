@@ -1,4 +1,4 @@
-title: Activate Bitrise Build Cache Add-On for Gradle
+title: Build Cache for Gradle
 summary: Activates Bitrise Remote Build Cache add-on for subsequent Gradle builds in the workflow
 description: |
   This Step activates Bitrise's remote build cache add-on for subsequent Gradle executions in the workflow.
