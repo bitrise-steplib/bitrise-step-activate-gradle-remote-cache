@@ -57,7 +57,9 @@ if [ "$gradle_verification_update" == "enabled" ]; then
 else
   /tmp/bin/bitrise-build-cache gradle-verification check-deps --metadata-path="$gradle_verification_metadata_path"
   if [[ $? -eq 1 ]]; then
-    echo "Gradle verification dependencies are missing. A reference verification metadata file with required dependencies is available here:"
-    echo "https://github.com/bitrise-io/bitrise-build-cache-cli/releases/download/${BITRISE_BUILD_CACHE_CLI_VERSION}/verification-metadata.xml"
+    echo "Gradle verification dependencies are missing."
   fi
 fi
+
+echo "A reference verification metadata file with required dependencies is available here:"
+echo "https://github.com/bitrise-io/bitrise-build-cache-cli/releases/download/${BITRISE_BUILD_CACHE_CLI_VERSION}/verification-metadata.xml"
