@@ -14,20 +14,8 @@ EOF_MSG
 
 set -eo pipefail
 
-echo "Checking whether Bitrise Build Cache is activated for this workspace ..."
-if [ "$BITRISEIO_BUILD_CACHE_ENABLED" != "true" ]; then
-  printf "\n%s\n" "$UNAVAILABLE_MESSAGE"
-  set -x
-  bitrise plugin install https://github.com/bitrise-io/bitrise-plugins-annotations.git
-  bitrise :annotations annotate "$UNAVAILABLE_MESSAGE" --style error || {
-    echo "Failed to create annotation"
-    exit 3
-  }
-  exit 2
-fi
-echo "Bitrise Build Cache is activated in this workspace, configuring the build environment ..."
-
-set -x
+bitrise plugin install https://github.com/bitrise-io/bitrise-plugins-annotations.git
+bitrise :annotations annotate "$UNAVAILABLE_MESSAGE" --style error
 
 # download the Bitrise Build Cache CLI
 export BITRISE_BUILD_CACHE_CLI_VERSION="v0.15.16"
@@ -51,4 +39,3 @@ fi
 
 # run the Bitrise Build Cache CLI
 /tmp/bin/bitrise-build-cache enable-for gradle --metrics="$collect_metrics" --push="$push" --validation-level="$validation_level" --debug="$verbose"
-
