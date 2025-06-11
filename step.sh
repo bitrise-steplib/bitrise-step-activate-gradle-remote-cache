@@ -30,6 +30,11 @@ echo "Bitrise Build Cache is activated in this workspace, configuring the build 
 set -x
 
 # download the Bitrise Build Cache CLI
+echo 'CLI and plugins temporarily disabled due to Maven Central/Sonatype throttling issue'
+echo 'We're working on a fix'
+echo 'For more details, please check https://status.bitrise.io/incidents/7cdh5vlhs6d0'
+exit 0
+
 export BITRISE_BUILD_CACHE_CLI_VERSION="v0.16.2"
 curl --retry 5 -sSfL 'https://raw.githubusercontent.com/bitrise-io/bitrise-build-cache-cli/main/install/installer.sh' | sh -s -- -b /tmp/bin -d $BITRISE_BUILD_CACHE_CLI_VERSION
 
