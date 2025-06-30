@@ -30,7 +30,7 @@ echo "Bitrise Build Cache is activated in this workspace, configuring the build 
 set -x
 
 # download the Bitrise Build Cache CLI
-export BITRISE_BUILD_CACHE_CLI_VERSION="v0.16.12"
+export BITRISE_BUILD_CACHE_CLI_VERSION="v0.17.0"
 curl --retry 5 -sSfL 'https://raw.githubusercontent.com/bitrise-io/bitrise-build-cache-cli/main/install/installer.sh' | sh -s -- -b /tmp/bin -d $BITRISE_BUILD_CACHE_CLI_VERSION
 
 if [ "$collect_metrics" != "true" ] && [ "$collect_metrics" != "false" ]; then
@@ -50,5 +50,5 @@ if [ "$verbose" != "true" ] && [ "$verbose" != "false" ]; then
 fi
 
 # run the Bitrise Build Cache CLI
-/tmp/bin/bitrise-build-cache enable-for gradle --metrics="$collect_metrics" --push="$push" --validation-level="$validation_level" --debug="$verbose"
+/tmp/bin/bitrise-build-cache activate gradle --debug="$verbose" --cache --cache-push="$push" --cache-validation="$validation_level" --analytics="$collect_metrics" 
 
