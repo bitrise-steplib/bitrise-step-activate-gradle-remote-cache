@@ -30,8 +30,34 @@ echo "Bitrise Build Cache is activated in this workspace, configuring the build 
 set -x
 
 # download the Bitrise Build Cache CLI
-export BITRISE_BUILD_CACHE_CLI_VERSION="v0.17.6"
-curl --retry 5 -sSfL 'https://raw.githubusercontent.com/bitrise-io/bitrise-build-cache-cli/main/install/installer.sh' | sh -s -- -b /tmp/bin -d $BITRISE_BUILD_CACHE_CLI_VERSION
+export BITRISE_BUILD_CACHE_CLI_VERSION="v0.17.7"
+curl --retry 5 -sSfL 'https://raw.githubusercontent.com/bitrise-io/bitrise-build-cache-cli/main/install/installer.sh' | sh -s -- -b /tmp/bin -d $BITRISE_BUILD_CACHE_CLI_VERSION || true
+
+# Fall back to Artifact Registry if the download failed
+if [ ! -f /tmp/bin/bitrise-build-cache ]; then
+  echo "Failed to download Bitrise Build Cache CLI, trying Artifact Registry ..."
+
+  version="${BITRISE_BUILD_CACHE_CLI_VERSION#v}"
+  os=$(uname -s | tr '[:upper:]' '[:lower:]')
+  arch=$(uname -m | sed 's/x86_64/amd64/' | sed 's/aarch64/arm64/')
+  package="bitrise-build-cache_${os}_${arch}.tar.gz"
+  filename="bitrise-build-cache_${version}_${os}_${arch}.tar.gz"
+
+  filepath="$package:$version:$filename"
+
+  echo "Downloading Bitrise Build Cache CLI from Artifact Registry: ${filepath}"
+
+  curl --retry 5 -sSfL "https://artifactregistry.googleapis.com/download/v1/projects/ip-build-cache-prod/locations/us-central1/repositories/build-cache-cli-releases/files/${filepath}:download?alt=media" -o $package
+  tar -xzf "$package"
+  mkdir -p /tmp/bin
+  mv "bitrise-build-cache" /tmp/bin/bitrise-build-cache
+  rm -rf "$package"
+fi
+
+if [ ! -f /tmp/bin/bitrise-build-cache ]; then
+  echo "Failed to download Bitrise Build Cache CLI, exiting."
+  exit 1
+fi
 
 if [ "$collect_metrics" != "true" ] && [ "$collect_metrics" != "false" ]; then
   echo "Parsing inputs failed: Collect Gradle build metrics ($collect_metrics) is not a valid option."
@@ -51,4 +77,3 @@ fi
 
 # run the Bitrise Build Cache CLI
 /tmp/bin/bitrise-build-cache activate gradle --debug="$verbose" --cache --cache-push="$push" --cache-validation="$validation_level" --analytics="$collect_metrics" 
-
