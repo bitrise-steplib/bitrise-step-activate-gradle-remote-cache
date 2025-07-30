@@ -49,6 +49,7 @@ if [ ! -f /tmp/bin/bitrise-build-cache ]; then
 
   curl --retry 5 -sSfL "https://artifactregistry.googleapis.com/download/v1/projects/ip-build-cache-prod/locations/us-central1/repositories/build-cache-cli-releases/files/${filepath}:download?alt=media" -o $package
   tar -xzf "$package"
+  mkdir -p /tmp/bin
   mv "bitrise-build-cache" /tmp/bin/bitrise-build-cache
   rm -rf "$package"
 fi
