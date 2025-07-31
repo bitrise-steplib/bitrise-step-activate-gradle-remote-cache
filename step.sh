@@ -31,7 +31,7 @@ set -x
 
 # download the Bitrise Build Cache CLI
 export BITRISE_BUILD_CACHE_CLI_VERSION="v0.17.7"
-curl --retry 5 -sSfL 'https://raw.githubusercontent.com/bitrise-io/bitrise-build-cache-cli/main/install/installer.sh' | sh -s -- -b /tmp/bin -d $BITRISE_BUILD_CACHE_CLI_VERSION || true
+curl --retry 5 -m 30 -sSfL 'https://raw.githubusercontent.com/bitrise-io/bitrise-build-cache-cli/main/install/installer.sh' | sh -s -- -b /tmp/bin -d $BITRISE_BUILD_CACHE_CLI_VERSION || true
 
 # Fall back to Artifact Registry if the download failed
 if [ ! -f /tmp/bin/bitrise-build-cache ]; then
@@ -47,7 +47,7 @@ if [ ! -f /tmp/bin/bitrise-build-cache ]; then
 
   echo "Downloading Bitrise Build Cache CLI from Artifact Registry: ${filepath}"
 
-  curl --retry 5 -sSfL "https://artifactregistry.googleapis.com/download/v1/projects/ip-build-cache-prod/locations/us-central1/repositories/build-cache-cli-releases/files/${filepath}:download?alt=media" -o $package
+  curl --retry 5 -m 60 -sSfL "https://artifactregistry.googleapis.com/download/v1/projects/ip-build-cache-prod/locations/us-central1/repositories/build-cache-cli-releases/files/${filepath}:download?alt=media" -o $package
   tar -xzf "$package"
   mkdir -p /tmp/bin
   mv "bitrise-build-cache" /tmp/bin/bitrise-build-cache
