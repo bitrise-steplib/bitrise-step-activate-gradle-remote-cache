@@ -9,8 +9,7 @@ case "$BITRISEIO_BUILD_CACHE_UNAVAILABLE_REASON" in
 Bitrise Build Cache invocation limit exceeded for this workspace. 
 Your current subscription's invocation count has been reached.
 
-You can upgrade your Pro subscription to increase the invocation count on your billing page:
-https://app.bitrise.io/workspaces/${BITRISE_BUILD_SLUG}/settings/billing
+You can upgrade your Pro subscription to increase the invocation count [here](https://bitrise.io/organization/${BITRISE_BUILD_SLUG}/credit_subscription/add_on_subscriptions/build-cache-pro/customize_build_cache_plan?source=cli).
 
 Contact us at [support@bitrise.io](mailto:support@bitrise.io) if you need assistance.
 EOF_MSG
@@ -32,8 +31,7 @@ EOF_MSG
     read -r -d '' UNAVAILABLE_MESSAGE << EOF_MSG
 Your Bitrise Build Cache trial for this workspace has expired.
 
-To continue using Build Cache, please subscribe or upgrade your plan on your billing page:
-https://app.bitrise.io/workspaces/${BITRISE_BUILD_SLUG}/settings/billing
+To continue using Build Cache, please subscribe or upgrade your plan [here](https://bitrise.io/organization/${BITRISE_BUILD_SLUG}/credit_subscription/add_on_subscriptions/build-cache-pro/customize_build_cache_plan?source=cli).
 
 Contact us at [support@bitrise.io](mailto:support@bitrise.io) if you need assistance.
 EOF_MSG
