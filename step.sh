@@ -37,11 +37,11 @@ To continue using Build Cache, please subscribe or upgrade your plan [here](http
 
 Contact us at [support@bitrise.io](mailto:support@bitrise.io) if you need assistance.
 EOF_MSG
-  ;;
 )
+  ;;
   *)
     # Use the same message as no_trial
-    read -r -d '' UNAVAILABLE_MESSAGE << EOF_MSG
+     UNAVAILABLE_MESSAGE=$(cat << EOF_MSG
 Bitrise Build Cache is not activated in this build.
 
 You have added the **Activate Bitrise Build Cache for Gradle** add-on step to your workflow. 
@@ -50,6 +50,7 @@ However, you don't have an active Bitrise Build Cache Trial or Subscription for 
 You can activate a Trial at [app.bitrise.io/build-cache](https://app.bitrise.io/build-cache), 
 or contact us at [support@bitrise.io](mailto:support@bitrise.io) if you need assistance.
 EOF_MSG
+)
   ;;
 esac
 
