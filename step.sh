@@ -1,9 +1,8 @@
-set -exo pipefail
+set -eo pipefail
 
 echo "Checking whether Bitrise Build Cache is activated for this workspace ..."
-
-case "$BITRISEIO_BUILD_CACHE_UNAVAILABLE_REASON" in
-
+if [[ "$BITRISEIO_BUILD_CACHE_ENABLED" != "true" && ! -z "$BITRISEIO_BUILD_CACHE_UNAVAILABLE_REASON" ]]; then
+  case "$BITRISEIO_BUILD_CACHE_UNAVAILABLE_REASON" in
   invocation_limit_exceeded)
     UNAVAILABLE_MESSAGE=$(cat << EOF_MSG
 Bitrise Build Cache invocation limit exceeded for this workspace. 
@@ -13,8 +12,8 @@ You can upgrade your Pro subscription to increase the invocation count [here](ht
 
 Contact us at [support@bitrise.io](mailto:support@bitrise.io) if you need assistance.
 EOF_MSG
-)
-  ;;
+  )
+    ;;
 
   no_trial|'')
     UNAVAILABLE_MESSAGE=$(cat << EOF_MSG
@@ -26,8 +25,8 @@ However, you don't have an active Bitrise Build Cache Trial or Subscription for 
 You can activate a Trial at [app.bitrise.io/build-cache](https://app.bitrise.io/build-cache), 
 or contact us at [support@bitrise.io](mailto:support@bitrise.io) if you need assistance.
 EOF_MSG
-)
-  ;;
+  )
+    ;;
 
   trial_expired)
     UNAVAILABLE_MESSAGE=$(cat << EOF_MSG
@@ -37,24 +36,10 @@ To continue using Build Cache, please subscribe or upgrade your plan [here](http
 
 Contact us at [support@bitrise.io](mailto:support@bitrise.io) if you need assistance.
 EOF_MSG
-)
-  ;;
-  *)
-    # Use the same message as no_trial
-     UNAVAILABLE_MESSAGE=$(cat << EOF_MSG
-Bitrise Build Cache is not activated in this build.
+  )
+    ;;
+  esac
 
-You have added the **Activate Bitrise Build Cache for Gradle** add-on step to your workflow. 
-However, you don't have an active Bitrise Build Cache Trial or Subscription for the current workspace yet.
-
-You can activate a Trial at [app.bitrise.io/build-cache](https://app.bitrise.io/build-cache), 
-or contact us at [support@bitrise.io](mailto:support@bitrise.io) if you need assistance.
-EOF_MSG
-)
-  ;;
-esac
-
-if [ "$BITRISEIO_BUILD_CACHE_ENABLED" != "true" ]; then
   printf "\n%s\n" "$UNAVAILABLE_MESSAGE"
   set -x
 
