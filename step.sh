@@ -5,7 +5,7 @@ echo "Checking whether Bitrise Build Cache is activated for this workspace ..."
 case "$BITRISEIO_BUILD_CACHE_UNAVAILABLE_REASON" in
 
   invocation_limit_exceeded)
-    read -r -d '' UNAVAILABLE_MESSAGE << EOF_MSG
+    UNAVAILABLE_MESSAGE=$(cat << EOF_MSG
 Bitrise Build Cache invocation limit exceeded for this workspace. 
 Your current subscription's invocation count has been reached.
 
@@ -13,10 +13,11 @@ You can upgrade your Pro subscription to increase the invocation count [here](ht
 
 Contact us at [support@bitrise.io](mailto:support@bitrise.io) if you need assistance.
 EOF_MSG
+)
   ;;
 
   no_trial|'')
-    read -r -d '' UNAVAILABLE_MESSAGE << EOF_MSG
+    UNAVAILABLE_MESSAGE=$(cat << EOF_MSG
 Bitrise Build Cache is not activated in this build.
 
 You have added the **Activate Bitrise Build Cache for Gradle** add-on step to your workflow. 
@@ -25,10 +26,11 @@ However, you don't have an active Bitrise Build Cache Trial or Subscription for 
 You can activate a Trial at [app.bitrise.io/build-cache](https://app.bitrise.io/build-cache), 
 or contact us at [support@bitrise.io](mailto:support@bitrise.io) if you need assistance.
 EOF_MSG
+)
   ;;
 
   trial_expired)
-    read -r -d '' UNAVAILABLE_MESSAGE << EOF_MSG
+    UNAVAILABLE_MESSAGE=$(cat << EOF_MSG
 Your Bitrise Build Cache trial for this workspace has expired.
 
 To continue using Build Cache, please subscribe or upgrade your plan [here](https://bitrise.io/organization/${BITRISE_BUILD_SLUG}/credit_subscription/add_on_subscriptions/build-cache-pro/customize_build_cache_plan?source=cli).
@@ -36,7 +38,7 @@ To continue using Build Cache, please subscribe or upgrade your plan [here](http
 Contact us at [support@bitrise.io](mailto:support@bitrise.io) if you need assistance.
 EOF_MSG
   ;;
-
+)
   *)
     # Use the same message as no_trial
     read -r -d '' UNAVAILABLE_MESSAGE << EOF_MSG
