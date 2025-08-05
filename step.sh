@@ -1,4 +1,4 @@
-set -eo pipefail
+set -exo pipefail
 
 echo "Checking whether Bitrise Build Cache is activated for this workspace ..."
 
