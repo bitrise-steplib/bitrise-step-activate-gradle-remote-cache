@@ -41,7 +41,6 @@ EOF_MSG
   esac
 
   printf "\n%s\n" "$UNAVAILABLE_MESSAGE"
-  set -x
 
   bitrise plugin install https://github.com/bitrise-io/bitrise-plugins-annotations.git
   bitrise :annotations annotate "$UNAVAILABLE_MESSAGE" --style error || {
@@ -52,8 +51,6 @@ EOF_MSG
   exit 2
 fi
 echo "Bitrise Build Cache is activated in this workspace, configuring the build environment ..."
-
-set -x
 
 # download the Bitrise Build Cache CLI
 export BITRISE_BUILD_CACHE_CLI_VERSION="v0.17.7"
