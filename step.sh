@@ -8,9 +8,8 @@ if [[ "$BITRISEIO_BUILD_CACHE_ENABLED" != "true" && ! -z "$BITRISEIO_BUILD_CACHE
 Bitrise Build Cache invocation limit exceeded for this workspace. 
 Your current subscription's invocation count has been reached.
 
-You can upgrade your Pro subscription to increase the invocation count [here](https://bitrise.io/organization/${BITRISE_BUILD_SLUG}/credit_subscription/add_on_subscriptions/build-cache-pro/customize_build_cache_plan?source=cli).
-
-Contact us at [support@bitrise.io](mailto:support@bitrise.io) if you need assistance.
+You can upgrade your Pro subscription to increase the invocation count after navigating to [app.bitrise.io/build-cache](https://app.bitrise.io/build-cache),
+or contact us at [support@bitrise.io](mailto:support@bitrise.io) if you need assistance.
 EOF_MSG
   )
     ;;
@@ -32,9 +31,8 @@ EOF_MSG
     UNAVAILABLE_MESSAGE=$(cat << EOF_MSG
 Your Bitrise Build Cache trial for this workspace has expired.
 
-To continue using Build Cache, please subscribe or upgrade your plan [here](https://bitrise.io/organization/${BITRISE_BUILD_SLUG}/credit_subscription/add_on_subscriptions/build-cache-pro/customize_build_cache_plan?source=cli).
-
-Contact us at [support@bitrise.io](mailto:support@bitrise.io) if you need assistance.
+To continue using Build Cache, please subscribe after navigating to [app.bitrise.io/build-cache](https://app.bitrise.io/build-cache),
+or contact us at [support@bitrise.io](mailto:support@bitrise.io) if you need assistance.
 EOF_MSG
   )
     ;;
