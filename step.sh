@@ -77,7 +77,3 @@ fi
 
 # run the Bitrise Build Cache CLI
 /tmp/bin/bitrise-build-cache activate gradle --debug="$verbose" --cache --cache-push="$push" --cache-validation="$validation_level" --analytics="$collect_metrics"
-
-# Activate Bitrise repository mirrors for Gradle. Gracefully no-ops on
-# unsupported datacenters / when BITRISE_MAVENCENTRAL_PROXY_ENABLED is unset.
-/tmp/bin/bitrise-build-cache activate gradle-mirrors --debug="$verbose" || true
